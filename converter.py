@@ -33,15 +33,15 @@ def convert(inputs, output, extension, codec, output_size=(None, None)):
     size = (width, height)
 
     # WORKS:
-    # out = cv.VideoWriter('example/video/project.avi', cv.VideoWriter_fourcc('M','J','P','G'), 15, size) #Big file size
-    out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc('X','V','I','D'), 15, size)
+    # out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc('M','J','P','G'), 15, size) #Big file size
+    #out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc('X','V','I','D'), 15, size)
+    #out = cv.VideoWriter(output + '.mp4', cv.VideoWriter_fourcc(*"mp4v"), 15, size)
+    #out = cv.VideoWriter(output + '.mp4', cv.VideoWriter_fourcc(*"mp4v"), 15, size)
+    #out = cv.VideoWriter('example/video/project.mkv', cv.VideoWriter_fourcc(*"mp4v"), 15, size)
 
     # MISSING CODEC:
-    # out = cv.VideoWriter('example/video/project.mp4', cv.VideoWriter_fourcc('M','P','V','4'), 15, size)
-    # out = cv.VideoWriter('example/video/project.mkv', cv.VideoWriter_fourcc('M','P','V','4'), 15, size)
-    # out = cv.VideoWriter('example/video/project.mp4', cv.VideoWriter_fourcc('H','2','6','4'), 15, size)
-    # out = cv.VideoWriter('example/video/project.mkv', cv.VideoWriter_fourcc('H','2','6','4'), 15, size)
-    # out = cv.VideoWriter('example/video/project.mp4', cv.VideoWriter_fourcc('A','V','C','1'), 15, size)
+    #out = cv.VideoWriter('example/video/project.mkv', cv.VideoWriter_fourcc(*"h264"), 15, size)
+    #out = cv.VideoWriter('example/video/project.mp4', cv.VideoWriter_fourcc(*"avc1"), 15, size)
 
     for i in range(len(inputs)):
         out.write(inputs[i])
