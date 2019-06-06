@@ -38,7 +38,7 @@ for subdir, _, files in os.walk(test_path):
         img_array.append(img)
 
     
-out = cv.VideoWriter('example/video/project.mkv', cv.VideoWriter_fourcc('H','2','6','4'), 15, size)
+out = cv.VideoWriter('example/video/project.mp4', cv.VideoWriter_fourcc('m','p','v','4'), 15, size)
 
 for i in range(len(img_array)):
     out.write(img_array[i])
