@@ -7,8 +7,7 @@ import argparse
 codecs = ["mp4v", "xvid", "mjpg", "h264", "avc1"]
 extensions = [".mp4", ".mkv", ".avi"]
 
-
-def sort_nicely(l):
+def sort_list(list, mode="human"):
     """ Sort the given list in the way that humans expect.
     """
 
@@ -24,15 +23,17 @@ def sort_nicely(l):
         """
         return [tryint(c) for c in re.split("([0-9]+)", s)]
 
-    l.sort(key=alphanum_key)
+    if mode == "human":
+        list.sort(key=alphanum_key)
+    elif mode == "alphanumerical":
+        list.sort()
 
-
-def convert(inputs, output, extension, codec, output_size=(None, None)):
+def convert(inputs, output, extension, codec, fps, output_size=(None, None)):
     # Assume all images are same dimensions
     height, width, layers = inputs[0].shape
     size = (width, height)
 
-    out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc(*codec), 15, size)
+    out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc(*codec), fps, size)
 
     # WORKS:
     # out = cv.VideoWriter(output + extension, cv.VideoWriter_fourcc('M','J','P','G'), 15, size) #Big file size
@@ -49,6 +50,22 @@ def convert(inputs, output, extension, codec, output_size=(None, None)):
         out.write(inputs[i])
 
     out.release()
+
+def main(FLAGS):
+    img_array = []
+
+    for subdir, _, files in os.walk(FLAGS.inputs):
+        print("[INFO] Working on: {}".format(subdir))
+        sort_list(files, mode="human")
+        nb_files = len(files)
+        print("     >>> Found {} files".format(nb_files))
+
+        for _file in files:
+            img = cv.imread(os.path.join(subdir, _file))
+            img_array.append(img)
+
+    convert(img_array, FLAGS.output, FLAGS.container, FLAGS.codec, FLAGS.fps)
+    print("[INFO] Successfully written video: {}".format(FLAGS.output + FLAGS.container))
 
 
 if __name__ == "__main__":
@@ -80,6 +97,12 @@ if __name__ == "__main__":
         help="codec for video encoding (mp4v, xvid, mjpg, h264, avc1), default: mp4v",
     )
     parser.add_argument(
+        "--fps",
+        type=int,
+        default=30,
+        help="number of images per second, default: 30",
+    )
+    parser.add_argument(
         "--width",
         type=int,
         required=False,
@@ -91,20 +114,6 @@ if __name__ == "__main__":
         required=False,
         help="height to reisze the output video"
     )
-
     FLAGS = parser.parse_args()
 
-    img_array = []
-
-    for subdir, _, files in os.walk(FLAGS.inputs):
-        print("[INFO] Working on: {}".format(subdir))
-        sort_nicely(files)
-        nb_files = len(files)
-        print("     >>> Found {} files".format(nb_files))
-
-        for _file in files:
-            img = cv.imread(os.path.join(subdir, _file))
-            img_array.append(img)
-
-    convert(img_array, FLAGS.output, FLAGS.container, FLAGS.codec)
-    print("[INFO] Successfully written video: {}".format(FLAGS.output + FLAGS.container))
+    main(FLAGS)
