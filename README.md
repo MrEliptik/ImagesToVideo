@@ -40,6 +40,24 @@ See the following [benchmark](https://github.com/opencv/opencv/wiki/Video-captur
 
 ## Requirements
 
+### Codecs
+
+You'll need codecs to encode your video. For that, make sure you have [ffmpeg](https://ffmpeg.org/) installed and/or [gstreamer](https://gstreamer.freedesktop.org/). A solution could also be to install [VLC](https://www.videolan.org/vlc/index.html) which comes with a lot of codecs.
+
+#### Linux (Ubuntu)
+
+For all: `sudo apt-get update`
+
+- ffmpeg `sudo apt-get install ffmpeg -y`
+- gstreamer plugins `sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio -y`
+- vlc `sudo apt-get install vlc -y` 
+
+#### Windows
+
+Go to the above links and chose the right installer for your windows version.
+
+### Python
+
 See *requirements.txt* file or run:
 
     pip install -r requirements.txt
